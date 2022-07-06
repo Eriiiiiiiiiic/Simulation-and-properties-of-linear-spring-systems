@@ -33,7 +33,6 @@ function verb = gitter(w,h)
   
   
   for i = 3:w
-    i
     verb{w*h - w + i}{1} = w*h - w + i - 1;
     verb{w*h - w + i}{2} = w*h - w + i + 1;
     verb{w*h - w + i}{3} = w*h - w + i - w;
