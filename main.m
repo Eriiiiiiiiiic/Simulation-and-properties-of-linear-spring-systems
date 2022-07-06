@@ -11,10 +11,11 @@ function main
   k = 6;  %Federkonstante
   m = 1;  %Masse
   g = 0.01;  #Gravitation
-  friction = 1;  %Reibungskoeffizient
+  friction = 0;  %Reibungskoeffizient
+  friction = 0;  %Reibungskoeffizient
   n = nc * c + 1;
   verb = connections(nc,c);
-  p_0 = [0,0.1,-5,5];
+  p_0 = [0,0.1,-50,50];
   C = matrix(nc,c,p_0);
   DistMat = dist_neu(n,C,p_0);
 %}
@@ -77,7 +78,9 @@ function main
   
   
   positions_stored = zeros(2*n,timesteps);
-
+  
+  clf;
+  
   for t = 1:timesteps
     t
 
@@ -136,11 +139,56 @@ function main
     
     
     positions_stored(:,t) = X(1:2*n);
+    
+    
+    
+    
+    
+    %%{
+    if t!=1
+      energy_temp = energy;
+      kin_energy_temp = kin_energy;
+      spannungs_energy_temp  = spannungs_energy;
+      potentielle_energy_temp = potentielle_energy;
+    end
+
+    energy = 0;
+    kin_energy = 0;
+    spannungs_energy = 0;
+    potentielle_energy = 0;
+
+    for i = 1:n
+      kin_energy += 1/2 * m * norm([X(1,2*n+i),X(1,3*n+i)])^2; #kinetische Energie
+      for j = cell2mat(verb{i})
+        spannungs_energy += 1/4 * k * (norm([X(1,i)-X(1,j),X(1,n+i)-X(1,n+j)]) - DistMat(i,j))^2; #spann/potentielle Ernergie. Der Fakotr 1/4 kommt davon, dass die Federn doppelt gezählt werden.
+      end
+      potentielle_energy += m*g*X(1,n+i);
+    end
+    
+    energy = kin_energy + spannungs_energy + potentielle_energy;
+    
+    figure(1);
+    if t!=1
+      plot([t/timesteps,(t+1)/timesteps],[energy_temp,energy],'r-'); hold on;
+
+      plot([t/timesteps,(t+1)/timesteps],[kin_energy_temp,kin_energy],'bo'); hold on;
+
+      plot([t/timesteps,(t+1)/timesteps],[spannungs_energy_temp,spannungs_energy],'g--'); hold on;
+
+      plot([t/timesteps,(t+1)/timesteps],[potentielle_energy_temp,potentielle_energy],'px'); hold on;
+      axis([0,1,0,100])
+      energy #output im Befehlsfenster
+    end
+    
+    
+    %}
   end
 
-  clf;
-  %figHandle = figure(1);
+
+  figHandle = figure(2);
   
+  figure(2);
+  clf;
   
   axis([-10,10,-10,10]);
   %axis([-3,2*w+1,-h,2*h+1]);
@@ -162,7 +210,7 @@ function main
         end
       end
       drawnow;
-      %MakeGif(figHandle, 'test.gif');
+      MakeGif(figHandle, 'test.gif');
     end    
   end
 end
