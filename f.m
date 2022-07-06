@@ -17,7 +17,7 @@ function change1 = f(p,n,fixpoints,verb,tau,k,m,friction,g,DistMat)
         end
       end
         change1(i) -= friction * vx(i) * tau;
-        change1(n+i) -= friction * vy(i) * tau + g;
+        change1(n+i) -= friction * vy(i) * tau + g * tau;
     end
   end
 end
