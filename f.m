@@ -1,4 +1,4 @@
-function change1 = f(p,n,fixpoints,verb,tau,k,m,gamma,g,DistMat)
+function change1 = f(p,n,fixpoints,verb,tau,k,m,friction,g,DistMat)
   
   x = p(1:n); %die ersten n einträge sind die x Werte
   y = p(n+1:2*n); %die n nächsten einträge sind die y Werte
@@ -16,8 +16,8 @@ function change1 = f(p,n,fixpoints,verb,tau,k,m,gamma,g,DistMat)
           change1(n+i) += k * (norm(pos(:,l)-pos(:,i)) - DistMat(l,i)) * (y(l)-y(i))/norm(pos(:,l)-pos(:,i));
         end
       end
-        change1(i) -= gamma * vx(i) * tau;
-        change1(n+i) -= gamma * vy(i) * tau + g;
+        change1(i) -= friction * vx(i) * tau;
+        change1(n+i) -= friction * vy(i) * tau + g;
     end
   end
 end
