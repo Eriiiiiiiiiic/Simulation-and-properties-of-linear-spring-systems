@@ -3,7 +3,7 @@ function main
   
 % COBWEB
 
-%%{
+%{
   nc = 5;
   c = 4;
   
@@ -24,13 +24,13 @@ function main
 
 % HÄNGENDE KETTE
 
-%{
-  n = 20;
-  fixpoints = 1;
+%%{
+  n = 10;
+  fixpoints = [1,n];
   k = 5;  %Federkonstante
   m = 1;  %Masse
-  g = 1;  #Gravitation
-  friction = 0.4;  %Reibungskoeffizient
+  g = 10;  #Gravitation
+  friction = 0;  %Reibungskoeffizient
   
   verb = {{2}};
   for i = 2:(n-1)
@@ -39,7 +39,7 @@ function main
   end
   verb{n}{1} = n-1;
   
-  C = [1:n; zeros(1,n); zeros(1,n); zeros(1,n)];
+  C = [(1/n)* 1:n; 1:n; zeros(1,n); zeros(1,n)];
   DistMat = dist_neu(n,C);
 %}
 
@@ -72,8 +72,8 @@ function main
 
   X_initial = transpose(transpose(C)(:));
   X = X_initial; % Zeilenmatrix
-  tau = 1/16;
-  T = 15;
+  tau = 1/8;
+  T = 150;
   timesteps = floor(T/tau);
   
   
@@ -82,11 +82,12 @@ function main
   clf;
   
   for t = 1:timesteps
+    
     t
-
+    
     %Verlet Method
     
-    %%{
+    %{
     f_temp = f(X,n,fixpoints,verb,tau,k,m,friction,g,DistMat);
     temp_velocity = X(2*n+1:4*n) + tau/2 * f_temp;
     
@@ -100,7 +101,7 @@ function main
     
     %initale Werte für Fixpunktiteration
     
-    %{
+    %%{
     
     x_old = X(1,1:(2*n));
     v_old = X(1,(2*n+1):(4*n));
@@ -144,7 +145,7 @@ function main
     
     
     
-    %%{
+    %{
     if t!=1
       energy_temp = energy;
       kin_energy_temp = kin_energy;
@@ -177,7 +178,7 @@ function main
 
       plot([t/timesteps,(t+1)/timesteps],[potentielle_energy_temp,potentielle_energy],'px'); hold on;
       axis([0,1,0,100])
-      energy #output im Befehlsfenster
+      energy; #output im Befehlsfenster
     end
     
     
@@ -185,14 +186,14 @@ function main
   end
 
 
-  figHandle = figure(2);
+  %figHandle = figure(2);
   
   figure(2);
   clf;
   
-  axis([-10,10,-10,10]);
-  %axis([-3,2*w+1,-h,2*h+1]);
-  %axis([-2*n,2*n,-5*n,n]);
+  %axis([-10,10,-10,10]);
+  %axis([-3,2*w+1,-h,2*h+1]);      
+  axis([-n,n,-n,n]);
   for t = 1:timesteps
     if rem(t,4) == 0
       t
@@ -201,16 +202,17 @@ function main
       y = positions_stored(n+1:2*n,t);  % die y Werte der n Punkte
 
         % Zeichnet die Punkte.
-      axis([-10,10,-10,10]);
+      %axis([-10,10,-10,10]);
       %axis([-3,2*w+1,-h,2*h+1]);
-      %axis([-2*n,2*n,-5*n,n]);
+      axis([-n,n,-n,n]);
+
       for i = 1:n
         for j = cell2mat(verb{i})
           line([x(i),x(j)],[y(i),y(j)]);
         end
       end
       drawnow;
-      MakeGif(figHandle, 'test.gif');
+      %MakeGif(figHandle, 'test.gif');
     end    
   end
 end
