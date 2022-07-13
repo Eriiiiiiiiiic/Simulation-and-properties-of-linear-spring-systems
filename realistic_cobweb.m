@@ -1,5 +1,5 @@
-function retval = realistic_cobweb(nc,c,d,verb,C)
-  n = nc * c + 1;
+function retval = realistic_cobweb(d,verb,C)
+  n = length(verb);
   N = C(1:2,:);
   for i = 1 : n
     for j = 1 : length(verb{i})
