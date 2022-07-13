@@ -10,10 +10,12 @@ function change1 = f(p,n,fixpoints,verb,tau,k,m,friction,g,DistMat)
 
   for i = 1:n
     if(!any(fixpoints == i))
-      for l = cell2mat(verb{i}) % alle Verbindungen zu i
-        if norm(pos(:,l)-pos(:,i)) > 0.01
-          change1(i) += k * (norm(pos(:,l)-pos(:,i)) - DistMat(l,i)) * (x(l)-x(i))/norm(pos(:,l)-pos(:,i));  %vx_i abgeleitet = x_i'' = proportional zur streckung "norm(pos(:,l)-pos(:,i)) - d"
-          change1(n+i) += k * (norm(pos(:,l)-pos(:,i)) - DistMat(l,i)) * (y(l)-y(i))/norm(pos(:,l)-pos(:,i));
+      for l = 1 : length(verb{i}) 
+        j = DistMat{i}{l}(1);% alle Verbindungen zu i
+        d = DistMat{i}{l}(2);
+        if norm(pos(:,j)-pos(:,i)) > 0.01
+          change1(i) += k * (norm(pos(:,j)-pos(:,i)) - d) * (x(j)-x(i))/norm(pos(:,j)-pos(:,i));  %vx_i abgeleitet = x_i'' = proportional zur streckung "norm(pos(:,l)-pos(:,i)) - d"
+          change1(n+i) += k * (norm(pos(:,j)-pos(:,i)) - d) * (y(j)-y(i))/norm(pos(:,j)-pos(:,i));
         end
       end
         change1(i) -= friction * vx(i) * tau;
