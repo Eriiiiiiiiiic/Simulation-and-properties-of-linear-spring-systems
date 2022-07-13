@@ -15,6 +15,8 @@ function retval = imp_verb(verb)
       verbnr{i}{j} = str2num(verbstr1{i}{j});
     endfor
   endfor
+
+
   retval = verbnr;
 end
 
