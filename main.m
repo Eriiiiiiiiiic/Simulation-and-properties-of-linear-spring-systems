@@ -2,7 +2,7 @@ function main
 
 
 % COBWEB
-netz = 4;
+netz = 3;
 int_method = 1;
 energy_plot = 1;
 
@@ -57,11 +57,11 @@ endif
 % LIANE
 if netz == 3
 %%{
-  n = 20;
+  n = 10;
   fixpoints = [1];
-  k = 10;  %Federkonstante
+  k = 1;  %Federkonstante
   m = 1;  %Masse
-  g = 10;  #Gravitation
+  g = 1;  #Gravitation
   friction = 0;  %Reibungskoeffizient
   verb = {{2}};
   for i = 2:(n-1)
@@ -111,8 +111,8 @@ endif
   beta = 0.25;
   
   tau = 1/8;
-  T = 100;
-  framerate = 4 % jedes ***-te Bild wird gezeichnet
+  T = 80;
+  framerate = 3 % jedes ***-te Bild wird gezeichnet
   timesteps = floor(T/tau)
 
   
@@ -223,7 +223,7 @@ endif
 
   %axis([-1,9,-25,10]);
   %axis([-3,3*w+1,-h,3*h+1]);
-  axis([-1,5,-8,5]);
+  axis([-15,15,-50,10]);
   clf;
 
   
@@ -237,7 +237,7 @@ endif
         % Zeichnet die Punkte.
       %axis([-10,10,-10,10]);
       %axis([-3,2*w+1,-h,2*h+1]);
-      axis([-1,5,-8,5]);
+      axis([-15,15,-50,10]);
 
       for i = 1:n
         for j = cell2mat(verb{i})
