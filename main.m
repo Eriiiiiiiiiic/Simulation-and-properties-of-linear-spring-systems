@@ -2,7 +2,7 @@ function main
 
 
 % COBWEB
-netz = 2;
+netz = 4;
 int_method = 1;
 energy_plot = 1;
 
@@ -38,10 +38,10 @@ endif
 % HÄNGENDE KETTE
 if netz == 2
   %%{
-  n = 10;
+  n = 30;
   fixpoints = [1,n];
   k = 1;  %Federkonstante
-  m = 1;  %Masse
+  m = 3;  %Masse
   g = 1;  #Gravitation
   friction = 0;  %Reibungskoeffizient
   verb = {{2}};
@@ -76,14 +76,14 @@ endif
 % Gitter
 if netz == 4
 %%{
-  h = 4;
+  h = 5;
   w = 4;
   d = 0.1
   n = h*w;
   fixpoints = [(n-w+1):n];
-  k = 20;  %Federkonstante
+  k = 2;  %Federkonstante
   m = 1;  %Masse
-  g = 2;  #Gravitation
+  g = 0.05;  #Gravitation
   friction = 0;  %Reibungskoeffizient
   C1 = [repmat(1:w,1,h); floor(((1:n) - 1)/w); zeros(1,n); 0.2 zeros(1,n-1)];
   C1(3,n/2) = 2;
@@ -100,7 +100,6 @@ if netz == 4
   n = length(C3);
   s = 1;
   C = stretch(C3,s);
-  
 %}
 endif
 
@@ -111,9 +110,9 @@ endif
   gamma = 0.5;
   beta = 0.25;
   
-  tau = 1/4;
-  T = 40;
-  framerate = 1 % jedes ***-te Bild wird gezeichnet
+  tau = 1/8;
+  T = 100;
+  framerate = 4 % jedes ***-te Bild wird gezeichnet
   timesteps = floor(T/tau)
 
   
@@ -224,11 +223,12 @@ endif
 
   %axis([-1,9,-25,10]);
   %axis([-3,3*w+1,-h,3*h+1]);
-  axis([0,5,0,5]);
+  axis([-1,5,-8,5]);
   clf;
 
   
   for t = 1:timesteps
+    t
     if rem(t,framerate) == 0
       clf;
       x = positions_stored(1:n,t); % die x Werte der n Punkte
@@ -237,7 +237,7 @@ endif
         % Zeichnet die Punkte.
       %axis([-10,10,-10,10]);
       %axis([-3,2*w+1,-h,2*h+1]);
-      axis([0,5,0,5]);
+      axis([-1,5,-8,5]);
 
       for i = 1:n
         for j = cell2mat(verb{i})
@@ -245,7 +245,7 @@ endif
         end
       end
       drawnow;
-      %MakeGif(figHandle, 'test.gif');
+      MakeGif(figHandle, 'test.gif');
     end
   end
 end
