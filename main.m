@@ -2,7 +2,7 @@ function main
 
 
 % COBWEB
-netz = 3;
+netz = 2;
 int_method = 1;
 energy_plot = 1;
 
@@ -38,7 +38,7 @@ endif
 % HÄNGENDE KETTE
 if netz == 2
   %%{
-  n = 30;
+  n = 10;
   fixpoints = [1,n];
   k = 1;  %Federkonstante
   m = 3;  %Masse
@@ -111,7 +111,7 @@ endif
   beta = 0.25;
   
   tau = 1/8;
-  T = 80;
+  T = 70;
   framerate = 3 % jedes ***-te Bild wird gezeichnet
   timesteps = floor(T/tau)
 
@@ -223,7 +223,7 @@ endif
 
   %axis([-1,9,-25,10]);
   %axis([-3,3*w+1,-h,3*h+1]);
-  axis([-15,15,-50,10]);
+  axis([0,10,-25,30]);
   clf;
 
   
@@ -237,7 +237,7 @@ endif
         % Zeichnet die Punkte.
       %axis([-10,10,-10,10]);
       %axis([-3,2*w+1,-h,2*h+1]);
-      axis([-15,15,-50,10]);
+      axis([0,10,-25,30]);
 
       for i = 1:n
         for j = cell2mat(verb{i})
