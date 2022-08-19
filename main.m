@@ -111,8 +111,8 @@ endif
   gamma = 0.5;
   beta = 0.25;
   
-  tau = 1/16;
-  T = 20;
+  tau = 1/4;
+  T = 40;
   framerate = 1 % jedes ***-te Bild wird gezeichnet
   timesteps = floor(T/tau)
 
@@ -207,7 +207,7 @@ endif
       energy = kin_energy + spannungs_energy + potentielle_energy;
       if t!=1
         %axis
-        xlabel ("rot: total energy, blau: kin, grün: spann, yellow: pot"); 
+        xlabel ("rot: totale Energie,  blau: kin,  grün: spann,  gelb: pot"); 
         plot([t/timesteps,(t+1)/timesteps],[energy_temp,energy],'r-'); hold on;
         plot([t/timesteps,(t+1)/timesteps],[kin_energy_temp,kin_energy],'bo'); hold on;
         plot([t/timesteps,(t+1)/timesteps],[spannungs_energy_temp,spannungs_energy],'g--'); hold on;
